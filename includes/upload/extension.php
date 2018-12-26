@@ -2,7 +2,7 @@
 /**
 *
 * @package Upload Extensions
-* @copyright (c) 2014 - 2016 Igor Lavrov (https://github.com/LavIgor) and John Peskens (http://ForumHulp.com)
+* @copyright (c) 2014 - 2017 Igor Lavrov (https://github.com/LavIgor) and John Peskens (http://ForumHulp.com)
 * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
 *
 */
@@ -259,6 +259,11 @@ class extension extends base
 		}
 
 		load::details($destination, (($made_update) ? 'updated' : 'uploaded'));
+
+		// Clear phpBB cache after details page did its work.
+		// Needed because some files like ext.php can be deleted in the new version.
+		// Should be done at last because we need to remove class names from data_global cache file.
+		objects::$cache->purge();
 
 		return true;
 	}
